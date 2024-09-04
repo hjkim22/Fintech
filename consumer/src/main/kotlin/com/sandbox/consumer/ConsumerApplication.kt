@@ -1,15 +1,13 @@
-package com.sandbox.api
+package com.sandbox.consumer
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.runApplication
-import org.springframework.context.annotation.ComponentScan
 
 @SpringBootApplication
 @EntityScan(basePackages = ["com.sandbox.domain"])
-@ComponentScan(basePackages = ["com.sandbox"])
-class ApiApplication
+class ConsumerApplication
 
 fun main(args: Array<String>) {
-    runApplication<ApiApplication>(*args)
+    runApplication<ConsumerApplication>(*args)
 }
