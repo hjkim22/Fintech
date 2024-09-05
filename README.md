@@ -1,61 +1,37 @@
-#  📈 Fintech - 대출 심사 프로젝트
-> 대출 심사 프로세스를 간소화하여
+#  💼 Fintech - 대출 심사 프로젝트
+> Kafka 를 이용한 Multi-Module 대출 심사 프로젝트
 ## 📌 주요 기능:
-- **웹 페이지 분석 및 데이터 스크래핑**
-- **사용자별 배당금 정보 관리**
-- **캐시 서버를 통한 성능 최적화**
+- **대출 심사 요청 API (POST)**
+- **대출 결과 요청 API (GET)**
+- **서비스 모듈 구현**
+- **Kafka를 통한 대출 심사 데이터 처리**
+- **CB사 모형 서버 구현**
 
 ## 🛠️ Tech Stack
 
-- **Java**: `11`
-- **Spring Boot**: `3.3.3`
-- **Gradle**: `8.8`
-- **Spring Data JPA**: `3.3.3`
-- **Spring Data Redis**: `3.3.3`
-- **Spring Security**: `3.3.3`
-- **Jsoup**: `1.17.2`
-- **Docker**: `27.1.1`
+- **Language**: `Kotlin`
+- **JDK**: `JDK 11`
+- **Build**: `Gradle 7.3.1`
+- **DataBase**: `MySQL`
+- **Framework**: `SpringBoot Multi Module`
+- **Caching**: `Redis 3.3.3`
+- **Containerization**: `Docker 27.1.1`
+- **Proxy Server**: `Nginx`
+- **Spring Boot**: `2.6.3`
 - **Libraries**:
-    - `Jsoup`
-    - `JWT (JJWT)`
-    - `Apache Commons Collections`
-    - `JAXB API`
-    - `JAXB Runtime`
-    - `Lombok`
+    - `Spring Data JPA`
+    - `Apache Kafka`
 
 
 ## ⛓️ 프로젝트 기능
-#### **GET** `/finance/dividend/{companyName}`
-- 회사 이름을 입력으로 받아 해당 회사의 메타 정보와 배당금 정보를 반환
+- **대출 심사 요청 API (POST)**: 대출 심사 요청을 처리
+- **대출 결과 요청 API (GET)**: 대출 심사 결과를 조회
+- **서비스 모듈 구현**: 대출 심사 및 처리 로직을 포함 모듈
+- **카프카 구현**: Kafka를 통해 대출 심사 요청을 CONSUMER를 통해 CSS로 전달.
+- **CB사 모형 서버 구현**: CB사 모형에 따라 대출 심사를 수행하는 서버 구현
 
-    - **200 OK**: 회사의 메타 정보와 배당금 정보를 포함하는 JSON 객체가 반환
-    - **400 Bad Request**: 잘못된 회사명이 입력된 경우 에러 메시지와 함께 반환
 
-#### **GET** `/company/autocomplete`
-- 자동완성 기능을 위한 API. 검색하고자 하는 prefix를 입력으로 받고, 해당 prefix로 검색되는 회사명 리스트 중 10개를 반환
-    - **200 OK**: prefix로 검색된 회사명 리스트 중 10개가 포함된 JSON 배열이 반환
-
-#### **GET** `/company`
-- 서비스에서 관리하고 있는 모든 회사 목록을 반환
-    - **200 OK**: 회사 목록을 포함하는 JSON 객체가 반환. 결과는 `Page` 인터페이스 형태
-
-#### **POST** `/company`
-- 새로운 회사 정보를 추가. 추가하고자 하는 회사의 ticker를 입력으로 받아 해당 회사의 정보를 스크래핑하고 저장
-    - **201 Created**: 회사 정보가 성공적으로 추가된 경우.
-    - **400 Bad Request**:
-        - 이미 보유한 회사의 정보일 경우: 에러 메시지와 함께 반환
-        - 존재하지 않는 회사 ticker일 경우: 에러 메시지와 함께 반환
-
-#### **DELETE** `/company/{ticker}`
-- ticker에 해당하는 회사 정보를 삭제. 삭제 시 회사의 배당금 정보와 캐시도 모두 삭제
-    - **200 OK**: 회사 정보와 관련된 배당금 정보 및 캐시가 삭제된 경우.
-
-#### **POST** `/auth/signup`
-- 회원가입 API. 중복 ID는 허용하지 않으며, 패스워드는 암호화된 형태로 저장
-    - **201 Created**: 회원가입이 성공적으로 완료된 경우.
-    - **400 Bad Request**: 중복 ID인 경우 에러 메시지와 함께 반환
-
-#### **POST** `/auth/signin`
-- 로그인 API. 회원가입이 되어 있고 아이디/패스워드 정보가 올바른 경우 JWT 발급
-    - **200 OK**: 올바른 아이디/패스워드 정보가 제공된 경우 JWT 반환
-    - **401 Unauthorized**: 아이디/패스워드 정보가 올바르지 않은 경우 에러 메시지와 함께 반환
+**기타 세부 사항**
+- Nginx를 통한 Proxy 서버를 CONSUMER 애플리케이션과 CSS 애플리케이션 사이 구축
+- 모든 애플리케이션은 Docker를 통해 실행 가능한 파일로 생성
+- 데이터베이스와 관련된 구현(예: Redis, JPA 등)은 Domain 모듈에 포함
