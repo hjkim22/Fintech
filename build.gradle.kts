@@ -47,3 +47,33 @@ subprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }
+
+project(":api") {
+    dependencies {
+        implementation(project(":domain"))
+        implementation(project(":kafka"))
+    }
+}
+
+project(":consumer") {
+    dependencies {
+        implementation(project(":domain"))
+        implementation(project(":kafka"))
+    }
+}
+
+project(":domain") {
+    val jar: Jar by tasks
+    val bootJar: org.springframework.boot.gradle.tasks.bundling.BootJar by tasks
+
+    bootJar.enabled = false
+    jar.enabled = true
+}
+
+project(":kafka") {
+    val jar: Jar by tasks
+    val bootJar: org.springframework.boot.gradle.tasks.bundling.BootJar by tasks
+
+    bootJar.enabled = false
+    jar.enabled = true
+}

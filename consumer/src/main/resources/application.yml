@@ -5,3 +5,6 @@ spring:
   profiles:
     include:
       - domain
+  output:
+    ansi:
+      enabled: always
